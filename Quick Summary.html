@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quick summary — Inequality, mobility & cohesion in developing nations</title>
+<link rel="icon" href="assets/favicon.png">
+<link rel="stylesheet" href="colors_and_type.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+  :root { --doc-serif: "Newsreader", Georgia, "Times New Roman", serif; }
+  * { box-sizing: border-box; }
+  html { background: var(--lt-bg-stone, #f1ede6); }
+  body {
+    margin: 0;
+    font-family: var(--lt-font-sans, "Litree Sans", system-ui, sans-serif);
+    color: var(--lt-text-primary);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* The page sheet */
+  .sheet {
+    max-width: 760px;
+    margin: 32px auto;
+    background: var(--lt-bg-surface, #fff);
+    border: 1px solid var(--lt-border-default);
+    border-radius: 14px;
+    padding: 64px 72px 72px;
+  }
+
+  /* Masthead */
+  .eyebrow {
+    font: 500 11px/1 var(--lt-font-sans);
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--lt-text-tertiary);
+    margin: 0 0 16px;
+  }
+  h1.doc-title {
+    font: 500 33px/1.18 var(--doc-serif);
+    letter-spacing: -0.012em;
+    color: var(--lt-text-ink, #1C1917);
+    margin: 0 0 12px;
+    text-wrap: balance;
+  }
+  .lede {
+    font: 400 16px/1.62 var(--lt-font-sans);
+    letter-spacing: -0.006em;
+    color: var(--lt-text-secondary);
+    margin: 0 0 24px;
+    max-width: 60ch;
+  }
+
+  /* Meta row */
+  .meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px 40px;
+    padding: 16px 0;
+    border-top: 1px solid var(--lt-border-subtle);
+    border-bottom: 1px solid var(--lt-border-subtle);
+    margin-bottom: 8px;
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 6px; }
+  .meta-k { font: 500 10.5px/1 var(--lt-font-sans); letter-spacing: 0.10em; text-transform: uppercase; color: var(--lt-text-tertiary); }
+  .meta-v { font: 500 14px/1.2 var(--lt-font-sans); letter-spacing: -0.01em; color: var(--lt-text-primary); }
+  .meta-spacer { flex: 1; }
+  .meta-v.warn { display: inline-flex; align-items: center; gap: 6px; color: var(--lt-warn-strong, #9a6700); }
+  .meta-v.warn svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+  /* Section headings + body */
+  section { margin-top: 36px; }
+  h2 {
+    font: 500 24px/1.25 var(--doc-serif);
+    letter-spacing: -0.008em;
+    color: var(--lt-text-ink, #1C1917);
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+  p {
+    font: 400 15.5px/1.72 var(--lt-font-sans);
+    letter-spacing: -0.003em;
+    color: var(--lt-text-secondary);
+    margin: 0 0 16px;
+    text-wrap: pretty;
+  }
+  p:last-child { margin-bottom: 0; }
+  .intro p { color: var(--lt-text-primary); }
+
+  /* Lead intro section sits right under meta, no top heading */
+  .intro { margin-top: 28px; }
+
+  /* Key takeaways — a scannable layer so the summary is actually quick to read.
+     Each finding carries a confidence tag keyed to the evidence strength. */
+  .takeaways {
+    margin-top: 28px;
+    padding: 24px 28px 26px;
+    background: var(--lt-bg-stone);
+    border: 1px solid var(--lt-border-subtle);
+    border-radius: 14px;
+  }
+  .takeaways-title {
+    font: 500 12px/1 var(--lt-font-sans);
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--lt-text-tertiary);
+    margin: 0 0 18px;
+  }
+  .takeaway-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+  .takeaway-list li {
+    display: flex; gap: 18px; align-items: flex-start; justify-content: space-between;
+  }
+  .takeaway-list li + li { border-top: 1px solid var(--lt-border-subtle); padding-top: 16px; }
+  .tk-text { font: 400 15px/1.55 var(--lt-font-sans); letter-spacing: -0.003em; color: var(--lt-text-primary); }
+  .conf {
+    flex-shrink: 0; white-space: nowrap; margin-top: 1px;
+    font: 500 11px/1 var(--lt-font-sans); letter-spacing: 0.01em;
+    padding: 5px 10px; border-radius: 9999px;
+  }
+  .conf-strong    { color: var(--lt-success-strong); background: var(--lt-success-subtle); }
+  .conf-mixed     { color: var(--lt-warn-strong);    background: var(--lt-warn-subtle); }
+  .conf-contested { color: var(--lt-text-secondary); background: var(--lt-bg-surface); border: 1px solid var(--lt-border-default); }
+
+  /* Conclusion gets a subtle emphasis panel */
+  .conclusion {
+    margin-top: 40px;
+    padding: 28px 32px;
+    background: var(--lt-accent-subtle);
+    border-radius: 12px;
+  }
+  .conclusion h2 { margin-top: 0; }
+  .conclusion p { color: var(--lt-text-primary); }
+
+  /* Sources — full reference list (all abstracts the summary draws on) */
+  .sources { margin-top: 44px; padding-top: 30px; border-top: 1px solid var(--lt-border-default); }
+  .sources .note { font: var(--lt-body-sm); color: var(--lt-text-tertiary); letter-spacing: -0.005em; margin: 0 0 20px; max-width: 60ch; }
+  .ref-list {
+    list-style: none; margin: 0; padding: 0; counter-reset: ref;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .ref-list li {
+    break-inside: avoid; margin-bottom: 0;
+    display: block; position: relative; padding-left: 34px;
+    font: 400 13px/1.6 var(--lt-font-sans); letter-spacing: -0.003em;
+    color: var(--lt-text-tertiary);
+  }
+  .ref-list li::before {
+    counter-increment: ref; content: counter(ref);
+    position: absolute; left: 0; top: 0; width: 22px; text-align: right;
+    font: 500 11px/1.85 ui-monospace, monospace; color: var(--lt-text-tertiary);
+  }
+  .ref-list cite { font-style: normal; color: var(--lt-text-secondary); font-weight: 500; }
+
+  /* Footer */
+  .doc-footer {
+    margin-top: 48px; padding-top: 20px;
+    border-top: 1px solid var(--lt-border-subtle);
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    font: var(--lt-body-sm); color: var(--lt-text-tertiary); letter-spacing: -0.005em;
+  }
+  .doc-footer .brand { display: inline-flex; align-items: center; gap: 7px; font-weight: 500; color: var(--lt-text-secondary); }
+  .doc-footer .brand-dot { width: 8px; height: 8px; border-radius: 9999px; background: var(--lt-accent); }
+
+  @media print {
+    html, body { background: #fff; }
+    .sheet { border: 0; border-radius: 0; margin: 0; max-width: none; padding: 0 0 24px; }
+    .conclusion { background: #f4f6fc; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .takeaways { background: #f4f1ec; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .conf { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    section, .conclusion, .takeaways { break-inside: avoid-page; }
+    h2 { break-after: avoid; }
+  }
+
+  @media (max-width: 720px) {
+    .sheet { margin: 0; border-radius: 0; padding: 40px 24px 48px; }
+    h1.doc-title { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+  <article class="sheet">
+    <p class="eyebrow">Quick summary</p>
+    <h1 class="doc-title">How does rising economic inequality affect intergenerational mobility and social cohesion in developing nations?</h1>
+    <p class="lede">An auto-generated summary of the suggested research, built from article abstracts.</p>
+
+    <div class="meta">
+      <div class="meta-item">
+        <span class="meta-k">Generated</span>
+        <span class="meta-v">June 27, 2026</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-k">Articles reviewed</span>
+        <span class="meta-v">318 abstracts</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-k">Confidence</span>
+        <span class="meta-v warn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+          Abstracts only
+        </span>
+      </div>
+    </div>
+
+    <section class="takeaways">
+      <div class="takeaways-title">Key takeaways</div>
+      <ul class="takeaway-list">
+        <li>
+          <span class="tk-text">Higher inequality is reliably associated with lower intergenerational mobility — but it works through schooling, credit, and labour-market channels, not income gaps alone.</span>
+          <span class="conf conf-strong">Strong consensus</span>
+        </li>
+        <li>
+          <span class="tk-text">Unequal access to quality schooling is the most consistently identified channel; expanding access raises mobility most when it also raises learning, not just enrolment.</span>
+          <span class="conf conf-strong">Strong consensus</span>
+        </li>
+        <li>
+          <span class="tk-text">Credit constraints and segmented, informal labour markets blunt the returns to education for the poor — relaxing them lifts mobility, but only alongside insurance and asset-building.</span>
+          <span class="conf conf-mixed">Mixed evidence</span>
+        </li>
+        <li>
+          <span class="tk-text">Group-based inequality (gender, ethnicity, caste) is especially corrosive of social cohesion — often more than vertical income gaps — and lowers mobility independently of household income.</span>
+          <span class="conf conf-strong">Strong consensus</span>
+        </li>
+        <li>
+          <span class="tk-text">Whether redistribution and transfers break the transmission depends heavily on administration, targeting, and institutional quality; results vary sharply across regions.</span>
+          <span class="conf conf-contested">Contested</span>
+        </li>
+      </ul>
+    </section>
+
+    <div class="intro">
+      <p>The literature on rising economic inequality, intergenerational mobility, and social cohesion in developing nations converges on a conditional answer rather than a simple one. Higher inequality is widely associated with lower mobility and weaker cohesion, but the strength of that link depends on which inequalities are measured, how opportunity is transmitted across generations, and the institutional setting that mediates the relationship. Across the studies reviewed here, the dominant message is that inequality does not mechanically lock in disadvantage; it does so most strongly where credit, schooling, and labour markets fail to give the children of the poor a fair chance.</p>
+      <p>The evidence base is broad and methodologically diverse. It spans intergenerational income and education elasticities, panel and cohort studies, quasi-experimental evaluations of schooling and transfer programmes, survey-based trust and cohesion measures, and cross-country comparisons. This diversity captures both aggregate associations and the underlying channels, but it also creates variation in estimated magnitudes and occasionally in the direction of the effect. The review therefore focuses on the themes that recur across the literature and on the conditions under which inequality is more or less corrosive of mobility and cohesion.</p>
+    </div>
+
+    <section>
+      <h2>Measuring inequality, mobility, and cohesion</h2>
+      <p>A first theme is that conclusions hinge on measurement. Income inequality, wealth inequality, and inequality of opportunity behave differently, and intergenerational mobility can be captured through income elasticities, educational persistence, or occupational transitions — each telling a slightly different story. Studies consistently find that the “Great Gatsby” pattern, in which more unequal societies show lower mobility, holds across many developing economies (<cite>Corak, 2013</cite>), but the slope is steeper for educational persistence than for income in settings where schooling quality varies sharply by background (<cite>Narayan et al., 2018</cite>). <cite>Roemer and Trannoy (2016)</cite> argue that inequality of opportunity — stripping out differences due to effort — is the more relevant object.</p>
+      <p>Cohesion is harder to pin down. Researchers proxy it with generalised trust, civic participation, perceptions of fairness, and tolerance of redistribution. <cite>Alesina and La Ferrara (2002)</cite> find that inequality lowers trust, but the link is sensitive to whether respondents attribute inequality to effort or to circumstance — a distinction that itself varies with how visible and rigid social hierarchies are.</p>
+    </section>
+
+    <section>
+      <h2>Education and human capital transmission</h2>
+      <p>Much of the literature explains low mobility through unequal access to human capital. Where school quality, early-childhood inputs, and tertiary access track family income, the children of poorer households accumulate less human capital regardless of ability, and inequality reproduces itself. Quasi-experimental studies of school expansion and scholarship programmes find meaningful gains in enrolment and attainment, especially for girls and rural children (<cite>Duflo, 2001</cite>; <cite>Muralidharan and Sundararaman, 2015</cite>).</p>
+      <p>The response is uneven, however. Access gains do not always translate into learning or labour-market returns when school quality is low, when credentials are diluted, or when the labour market rewards connections over skills. <cite>Hanushek and Woessmann (2012)</cite> show that learning — not years of schooling — drives the payoff, so human-capital policy raises mobility most when it improves quality and relevance, not only quantity of schooling.</p>
+    </section>
+
+    <section>
+      <h2>Labour markets, informality, and returns to skill</h2>
+      <p>Labour markets are where human capital is priced, and their structure shapes how far schooling can lift mobility. Large informal sectors, segmented markets, and weak enforcement compress the returns to education for those without networks or formal entry points (<cite>Fields, 2011</cite>; <cite>La Porta and Shleifer, 2014</cite>). Several studies show that mobility is higher where formal employment is accessible and where wage-setting rewards measured skill rather than family background.</p>
+      <p>The effect is less uniform when labour demand is weak or concentrated. In economies with rigid hiring, strong insider protections, or dominant employers, even well-educated entrants from poor backgrounds face barriers, and inequality persists across generations. Formalisation and competition in product and labour markets emerge as complements to schooling rather than substitutes.</p>
+    </section>
+
+    <section>
+      <h2>Credit constraints and the transmission of advantage</h2>
+      <p>A recurring mechanism is financial: poor households cannot borrow against their children’s future earnings, so they under-invest in education, health, and migration even when returns are high. <cite>Galor and Zeira (1993)</cite> formalise how credit constraints under inequality produce persistent underinvestment; empirically, <cite>Bossuroy et al. (2022)</cite> show that relaxing capital and psychosocial constraints together raises investment among the very poor, though <cite>Banerjee et al. (2015)</cite> find microcredit alone has modest and uneven effects.</p>
+      <p>Yet credit access alone is rarely sufficient. Where returns are uncertain, where risk is uninsured, or where assets cannot be safely accumulated, families remain cautious. The literature links mobility to the wider architecture of insurance and asset-building, not to credit in isolation.</p>
+    </section>
+
+    <section>
+      <h2>Geography and spatial opportunity</h2>
+      <p>Opportunity is unevenly distributed in space. Mobility is markedly higher in some regions, cities, and neighbourhoods than others, even within the same country. Proximity to good schools, functioning labour markets, and infrastructure shapes children’s prospects, and place-based disadvantage can persist for generations. Following the methodological template of <cite>Chetty et al. (2014)</cite>, studies of internal migration (<cite>Bryan, Chowdhury, and Mobarak, 2014</cite>) find that moving to higher-opportunity areas can raise children’s outcomes, but moving costs, informal tenure, and social ties limit who can relocate.</p>
+      <p>Spatial inequality also interacts with public goods: where local financing of schools and services tracks local income, geography entrenches inequality. Effects therefore reflect not only where families live but how opportunity and public investment are distributed across places.</p>
+    </section>
+
+    <section>
+      <h2>Group-based inequality: gender, ethnicity, and caste</h2>
+      <p>Inequality is rarely only about income. Gender, ethnicity, caste, and region structure opportunity in ways that compound economic disadvantage. The literature finds that group-based barriers lower mobility independently of household income, and that interventions aimed at excluded groups — from girls’ schooling to anti-discrimination measures — can raise both mobility and perceived fairness.</p>
+      <p>The gains depend on enforcement and social norms. Where norms are rigid or institutions weak, formal equality of access does not close gaps. <cite>Munshi (2019)</cite> shows how caste networks shape labour-market entry in India, and <cite>Stewart (2016)</cite> stresses that horizontal inequalities between groups are especially corrosive of social cohesion, more so than vertical income gaps alone.</p>
+    </section>
+
+    <section>
+      <h2>Social cohesion, trust, and institutions</h2>
+      <p>A consistent finding is that high and visible inequality erodes generalised trust, weakens collective action, and can fuel grievance — especially where it aligns with group identity. Lower cohesion in turn undermines the provision of public goods and the political support for mobility-enhancing policy, creating a feedback loop. Institutions mediate this: where the state is seen as fair and competent, inequality is less corrosive of trust.</p>
+      <p>The evidence also shows that perceptions matter as much as measured inequality. <cite>Putnam (2007)</cite> links inequality to lower social capital, while <cite>Alesina, Stantcheva, and Teso (2018)</cite> show that beliefs about mobility — not just its actual level — shape demand for redistribution, and that these beliefs are systematically biased.</p>
+    </section>
+
+    <section>
+      <h2>Policy levers: redistribution and social protection</h2>
+      <p>The most consistent qualification is that policy design matters. Conditional and unconditional transfers, social insurance, public schooling, and progressive financing can weaken the inequality–mobility link when they reach the constrained and are sustained over time. <cite>Fiszbein and Schady (2009)</cite>, reviewing conditional cash transfers, find robust gains in enrolment though more variable effects on learning; programmes that combine income support with investment in children’s human capital tend to outperform pure transfers on mobility.</p>
+      <p>Unfunded or poorly targeted policies fare worse. Where administration is weak, leakage high, or benefits captured by the better-off, redistribution may shift resources without changing the underlying opportunity structure. The literature judges policy within the wider fiscal and institutional constraint rather than in isolation.</p>
+    </section>
+
+    <section>
+      <h2>Heterogeneity across developing regions</h2>
+      <p>The same level of inequality maps onto very different mobility outcomes across regions. Effects are stronger where schooling quality varies sharply by background, where labour markets are segmented, and where group-based barriers are entrenched; they are weaker where access to quality public services is broad. Latin American, Sub-Saharan African, and South Asian settings show distinct patterns reflecting their histories of land, education, and labour institutions.</p>
+      <p>This heterogeneity cautions against universal claims. Results from one institutional setting often do not transfer cleanly to another, and the binding constraint — credit, schooling quality, discrimination, or geography — differs across contexts.</p>
+    </section>
+
+    <section>
+      <h2>Methodological differences in the evidence</h2>
+      <p>The literature is methodologically diverse, which helps explain why findings vary. Intergenerational elasticities are sensitive to how income is measured and over what horizon, and to attenuation from short or noisy earnings windows (<cite>Mazumder, 2005</cite>). Cross-country comparisons face endogeneity and comparability problems, while quasi-experimental studies offer cleaner identification of specific channels but capture partial-equilibrium effects.</p>
+      <p>Trust and cohesion measures rely on surveys whose framing shapes responses. The combined evidence supports the general claim that inequality dampens mobility and cohesion, but not a single universal magnitude — estimates depend heavily on measurement, horizon, and context.</p>
+    </section>
+
+    <section>
+      <h2>Gaps and limitations</h2>
+      <p>Several limitations run through the literature. Many studies focus on a single country or programme, limiting external validity, and high-quality intergenerational data remain scarce in the poorest settings. The separation of mobility analysis from cohesion and political-economy dynamics makes it hard to judge the feedback loops that sustain or erode opportunity over time.</p>
+      <p>Evidence on wealth as opposed to income mobility is thin, as is work jointly modelling credit, schooling quality, discrimination, and geography — even though these move together in practice. Longer panels and better measurement of opportunity, not just outcomes, would strengthen the field.</p>
+    </section>
+
+    <div class="conclusion">
+      <h2>Conclusion</h2>
+      <p>Rising inequality tends to lower intergenerational mobility and weaken social cohesion in developing nations, but the effect is conditional rather than automatic. It is strongest where inequality is transmitted through unequal schooling, binding credit constraints, segmented labour markets, and group-based exclusion, and where weak or captured institutions fail to widen access to opportunity. Where states are fair and capable and public services reach the constrained, the link is much weaker.</p>
+      <p>The state of knowledge is therefore conditional. The most useful question is not whether inequality harms mobility and cohesion in general, but which inequalities, transmitted through which channels, and under which institutions, are most damaging — and which policies most reliably break the transmission.</p>
+    </div>
+
+    <section class="sources">
+      <h2>References</h2>
+      <ol class="ref-list">
+        <li><cite>Alesina, A., &amp; La Ferrara, E.</cite> (2002). Who trusts others? <em>Journal of Public Economics</em>, 85(2), 207–234.</li>
+        <li><cite>Alesina, A., Stantcheva, S., &amp; Teso, E.</cite> (2018). Intergenerational mobility and preferences for redistribution. <em>American Economic Review</em>, 108(2), 521–554.</li>
+        <li><cite>Banerjee, A., Karlan, D., &amp; Zinman, J.</cite> (2015). Six randomized evaluations of microcredit. <em>American Economic Journal: Applied Economics</em>, 7(1), 1–21.</li>
+        <li><cite>Bossuroy, T., et al.</cite> (2022). Tackling psychosocial and capital constraints to alleviate poverty. <em>Nature</em>, 605, 291–297.</li>
+        <li><cite>Bryan, G., Chowdhury, S., &amp; Mobarak, A. M.</cite> (2014). Underinvestment in a profitable technology: Seasonal migration in Bangladesh. <em>Econometrica</em>, 82(5), 1671–1748.</li>
+        <li><cite>Chetty, R., Hendren, N., Kline, P., &amp; Saez, E.</cite> (2014). Where is the land of opportunity? <em>Quarterly Journal of Economics</em>, 129(4), 1553–1623.</li>
+        <li><cite>Corak, M.</cite> (2013). Income inequality, equality of opportunity, and intergenerational mobility. <em>Journal of Economic Perspectives</em>, 27(3), 79–102.</li>
+        <li><cite>Duflo, E.</cite> (2001). Schooling and labor market consequences of school construction in Indonesia. <em>American Economic Review</em>, 91(4), 795–813.</li>
+        <li><cite>Fields, G.</cite> (2011). Labor market analysis for developing countries. <em>Labour Economics</em>, 18, S16–S22.</li>
+        <li><cite>Fiszbein, A., &amp; Schady, N.</cite> (2009). <em>Conditional Cash Transfers: Reducing Present and Future Poverty.</em> World Bank.</li>
+        <li><cite>Galor, O., &amp; Zeira, J.</cite> (1993). Income distribution and macroeconomics. <em>Review of Economic Studies</em>, 60(1), 35–52.</li>
+        <li><cite>Hanushek, E., &amp; Woessmann, L.</cite> (2012). Do better schools lead to more growth? <em>Journal of Economic Growth</em>, 17(4), 267–321.</li>
+        <li><cite>La Porta, R., &amp; Shleifer, A.</cite> (2014). Informality and development. <em>Journal of Economic Perspectives</em>, 28(3), 109–126.</li>
+        <li><cite>Mazumder, B.</cite> (2005). Fortunate sons: New estimates of intergenerational mobility. <em>Review of Economics and Statistics</em>, 87(2), 235–255.</li>
+        <li><cite>Munshi, K.</cite> (2019). Caste and the Indian economy. <em>Journal of Economic Literature</em>, 57(4), 781–834.</li>
+        <li><cite>Muralidharan, K., &amp; Sundararaman, V.</cite> (2015). The aggregate effect of school choice. <em>Quarterly Journal of Economics</em>, 130(3), 1011–1066.</li>
+        <li><cite>Narayan, A., et al.</cite> (2018). <em>Fair Progress? Economic Mobility Across Generations Around the World.</em> World Bank Group.</li>
+        <li><cite>Putnam, R.</cite> (2007). E pluribus unum: Diversity and community in the twenty-first century. <em>Scandinavian Political Studies</em>, 30(2), 137–174.</li>
+        <li><cite>Roemer, J., &amp; Trannoy, A.</cite> (2016). Equality of opportunity: Theory and measurement. <em>Journal of Economic Literature</em>, 54(4), 1288–1332.</li>
+        <li><cite>Stewart, F.</cite> (2016). <em>Horizontal Inequalities and Conflict.</em> Palgrave Macmillan.</li>
+      </ol>
+      <p style="margin-top:24px; font: var(--lt-body-sm); color: var(--lt-text-tertiary); letter-spacing:-0.005em;">20 of 318 sources cited above. The complete source set is available in your project's Papers tab.</p>
+    </section>
+  </article>
+
+  <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="16" fill="#3B5AC8"/><rect x="28" y="26" width="44" height="6" rx="3" fill="#fff"/><rect x="28" y="40" width="44" height="4" rx="2" fill="#ffffff" opacity="0.7"/><rect x="28" y="50" width="44" height="4" rx="2" fill="#ffffff" opacity="0.7"/><rect x="28" y="60" width="30" height="4" rx="2" fill="#ffffff" opacity="0.7"/></svg></template>
+</body>
+</html>

@@ -1,0 +1,322 @@
+/* =========================================================================
+   Litree — design tokens
+   Source of truth: "Litree – Design System.fig" (Foundations page)
+   ========================================================================= */
+
+/* ---------- Fonts ---------- */
+/* Litree Sans — the brand typeface. Shipped locally as a single variable
+   font file (one file covers all weights 100–900), under the brand family
+   name. Provenance & license: see LICENSES.md. This is the only font the
+   system declares — there is no web-font / CDN fallback by design. */
+@font-face {
+  font-family: "Litree Sans";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("fonts/LitreeSans.woff2") format("woff2");
+}
+
+:root {
+  /* =======================================================================
+     COLOR TOKENS — light theme (default).
+     Each concept has ONE canonical token. Aliases below reference their
+     canonical via var() so there is a single source of truth, and the dark
+     theme (end of file) only has to override the canonical tokens.
+     ======================================================================= */
+
+  /* ---------- Brand / accent ---------- */
+  --lt-accent:          #3B5AC8;   /* primary brand — buttons, links, active */
+  --lt-accent-hover:    #5A78D6;   /* hover on accent, focus ring */
+  --lt-accent-pressed:  #2E47A8;   /* pressed/active state on accent buttons */
+  --lt-accent-subtle:   #ECEFF9;   /* selected rows, active sidebar items */
+  /* aliases → canonical (used by Sidebar's solid CTA) */
+  --lt-accent-solid:       var(--lt-accent);         /* alias — solid accent fills */
+  --lt-accent-solid-hover: var(--lt-accent-hover);   /* alias — hover on solid fills */
+
+  /* ---------- Text ---------- */
+  --lt-text-primary:    #1C1917;   /* headings, body text, primary content */
+  --lt-text-secondary:  #57534E;   /* labels, helper, column headers */
+  --lt-text-tertiary:   #79716B;   /* placeholders, timestamps, meta — AA on bg-primary (≈4.6:1) */
+  --lt-text-disabled:   #D6D3CD;   /* disabled buttons + inputs */
+  --lt-text-on-accent:  #FFFFFF;
+  /* aliases → canonical */
+  --lt-text-ink:        var(--lt-text-primary);   /* alias — wordmark / titles */
+  --lt-text-muted:      var(--lt-text-tertiary);  /* alias — eyebrow labels (ALL CAPS) */
+  --lt-text-danger:     var(--lt-danger);         /* alias — danger text */
+
+  /* ---------- Surfaces ---------- */
+  --lt-bg-primary:      #FDFCFA;   /* page bg — warm off-white */
+  --lt-bg-sidebar:      #F6F4F0;   /* sidebar */
+  --lt-bg-active:       #F0EDE8;   /* selected rows, pressed states */
+  --lt-bg-hover:        #E8E4DD;   /* hovered rows */
+  --lt-bg-stone:        #F0EDE8;   /* secondary button surface, count pills */
+  --lt-bg-stone-warm:   #E8E4DD;   /* alt secondary surface */
+  --lt-bg-surface:      #FFFFFF;   /* cards, modals — pure white sits on the warm bg */
+
+  /* ---------- Borders ---------- */
+  --lt-border-default:  #E3E0DA;   /* cards, resting inputs, dividers */
+  --lt-border-input:    #D1CDC6;   /* focused/emphasized inputs */
+  --lt-border-subtle:   #F0EDE8;   /* section dividers */
+  --lt-border-warm:     var(--lt-border-default);  /* alias — tab bar underline */
+
+  /* ---------- Status ----------
+   * Every status now has the same three-stop shape:
+   *   subtle  → pill / banner background tint
+   *   base    → foreground icon / solid fill
+   *   strong  → high-contrast text ON the subtle tint (AA)
+   * success/danger keep their interactive hover+pressed stops too. */
+  --lt-success:         #3A8E84;   /* teal — strong evidence, low risk, favoured */
+  --lt-success-strong:  #2C6B63;   /* text on success-subtle (≈4.7:1) */
+  --lt-success-subtle:  #ECF5F4;
+  --lt-danger:          #BF5472;   /* rose — limited evidence, high risk, harmed */
+  --lt-danger-hover:    #CC6680;   /* hover state on danger buttons */
+  --lt-danger-pressed:  #B54A64;   /* pressed/active on danger buttons */
+  --lt-danger-strong:   #9F3D58;   /* text on danger-subtle (≈4.6:1) */
+  --lt-danger-subtle:   #F9ECF0;
+  --lt-warn:            #C8881F;   /* amber — caveat, moderate evidence, mixed verdict */
+  --lt-warn-strong:     #8A5A16;   /* text on warn-subtle (≈4.6:1) */
+  --lt-warn-subtle:     #FAF1E1;
+
+  /* ---------- Overlays ---------- */
+  --lt-overlay-modal:   rgba(0,0,0,0.18);
+  --lt-overlay-panel:   rgba(0,0,0,0.12);
+
+  /* ---------- Radius ---------- */
+  --lt-radius-sm: 5px;
+  --lt-radius-md: 8px;
+  --lt-radius-lg: 12px;
+  --lt-radius-xl: 16px;
+  --lt-radius-full: 9999px;
+
+  /* ---------- Spacing (4px base) ---------- */
+  --lt-space-2xs: 4px;
+  --lt-space-xs:  8px;
+  --lt-space-sm:  12px;
+  --lt-space-md:  16px;
+  --lt-space-lg:  24px;
+  --lt-space-xl:  32px;
+  --lt-space-2xl: 48px;
+  --lt-space-3xl: 64px;
+
+  /* ---------- Elevation ---------- */
+  --lt-elev-1: 0 1px 2px 0 rgba(0,0,0,0.06);
+  --lt-elev-2: 0 4px 12px 0 rgba(0,0,0,0.08);
+  --lt-elev-3: 0 8px 16px 0 rgba(0,0,0,0.20); /* dropdown / menu */
+
+  /* ---------- Focus ring ---------- */
+  /* Accessible 3px halo — works on any surface, kept cool (accent) as a visual "action" cue */
+  --lt-focus-ring:          0 0 0 3px rgba(59, 90, 200, 0.28);
+  --lt-focus-ring-danger:   0 0 0 3px rgba(191, 84, 114, 0.28);
+  --lt-focus-ring-on-accent:0 0 0 3px rgba(255, 255, 255, 0.45); /* focus on primary button */
+
+  /* ---------- Motion ---------- */
+  /* Durations: UI should feel responsive; 120ms is the floor, 320ms the ceiling for anything meaningful */
+  --lt-dur-instant: 80ms;   /* color/opacity micro-flicks (hover tint) */
+  --lt-dur-fast:    120ms;  /* most hover / press transitions */
+  --lt-dur-base:    180ms;  /* default — buttons, menus, inputs */
+  --lt-dur-slow:    240ms;  /* modals, drawers, accordion open */
+  --lt-dur-slower:  320ms;  /* page-level transitions */
+
+  /* Easings — named by intent */
+  --lt-ease-out:    cubic-bezier(0.22, 0.61, 0.36, 1);   /* leaving → settling (default for "enter" motion) */
+  --lt-ease-in:     cubic-bezier(0.55, 0.06, 0.68, 0.19);/* accelerating away (for "exit" motion) */
+  --lt-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);      /* symmetric — use for continuous things (progress) */
+  --lt-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* slight overshoot — use sparingly (toast in) */
+
+  /* Compound tokens for the common cases */
+  --lt-transition-colors: color var(--lt-dur-fast) var(--lt-ease-out),
+                          background-color var(--lt-dur-fast) var(--lt-ease-out),
+                          border-color var(--lt-dur-fast) var(--lt-ease-out);
+  --lt-transition-base:   all var(--lt-dur-base) var(--lt-ease-out);
+
+  /* ---------- Motion keyframes ---------- */
+  /* lt-spin — global spinner rotation. Used by Button loading state, Badge spinner,
+     and any component that shows indeterminate progress. Keeping the keyframe in
+     the token stylesheet means every consumer that loads this CSS gets it for free. */
+}
+@keyframes lt-spin { to { transform: rotate(360deg); } }
+@keyframes lt-toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+/* lt-skeleton — shared loading placeholder. A calm opacity pulse on a flat
+   neutral block (no sliding sheen) — quieter and more current than a shimmer. */
+@keyframes lt-skeleton-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+.lt-skeleton {
+  background: var(--lt-bg-active);
+  border-radius: 6px;
+  animation: lt-skeleton-pulse 1.5s ease-in-out infinite;
+}
+/* lt-card-expand — entrance for disclosure panels, tooltips, and any
+   element that mounts on open. Lives here (not per-page) so every consumer
+   of DisclosurePanel / Tooltip gets the animation without extra CSS. */
+@keyframes lt-card-expand {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+:root {
+
+  /* ---------- Typography ---------- */
+  --lt-font-sans: "Litree Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Semantic text roles — sizes × weight × line-height × tracking */
+  --lt-h1: 600 28px/1.10 var(--lt-font-sans);
+  --lt-h2: 600 24px/1.20 var(--lt-font-sans);
+  --lt-h3: 600 20px/1.30 var(--lt-font-sans);
+  --lt-body-lg: 400 16px/1.60 var(--lt-font-sans);
+  --lt-body:    400 15px/1.55 var(--lt-font-sans);
+  --lt-body-sm: 400 12px/1.50 var(--lt-font-sans);
+  --lt-label:   500 13px/1.00 var(--lt-font-sans); /* default UI label */
+  --lt-button:  500 14px/1.00 var(--lt-font-sans);
+  --lt-table-header: 500 12px/1.50 var(--lt-font-sans); /* sentence case, letter-spacing: -0.005em */
+  --lt-overline:     500 10.5px/1.00 var(--lt-font-sans); /* letter-spacing: 0.10em; UPPERCASE — canonical eyebrow */
+  --lt-badge:        500 11px/1.00 var(--lt-font-sans);
+}
+
+/* ---------- Element defaults ---------- */
+html, body {
+  font: var(--lt-body);
+  color: var(--lt-text-primary);
+  background: var(--lt-bg-primary);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1 { font: var(--lt-h1); letter-spacing: -0.045em; color: var(--lt-text-ink); margin: 0; }
+h2 { font: var(--lt-h2); letter-spacing: -0.020em; color: var(--lt-text-primary); margin: 0; }
+h3 { font: var(--lt-h3); letter-spacing: -0.020em; color: var(--lt-text-primary); margin: 0; }
+p  { font: var(--lt-body); letter-spacing: -0.010em; color: var(--lt-text-secondary); margin: 0; }
+small { font: var(--lt-body-sm); color: var(--lt-text-tertiary); }
+code, kbd { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace; font-size: 0.92em; }
+
+/* ---------- Keyboard shortcuts ---------- */
+kbd, .lt-kbd {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 18px; height: 20px; padding: 0 5px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 11px; font-weight: 500; line-height: 1;
+  color: var(--lt-text-secondary);
+  background: var(--lt-bg-surface);
+  border: 1px solid var(--lt-border-default);
+  border-bottom-width: 1.5px; /* subtle key-face illusion */
+  border-radius: 4px;
+  vertical-align: 0.05em;
+}
+.lt-kbd-group { display: inline-flex; gap: 3px; align-items: center; }
+.lt-kbd-group .sep { color: var(--lt-text-tertiary); font-size: 11px; }
+/* In dark/accent contexts */
+kbd.on-dark, .lt-kbd.on-dark { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.24); }
+
+/* ---------- Utility classes used by preview cards ---------- */
+.lt-overline   { font: var(--lt-overline); letter-spacing: 0.10em; text-transform: uppercase; color: var(--lt-text-muted); }
+.lt-label      { font: var(--lt-label); letter-spacing: -0.010em; color: var(--lt-text-primary); }
+.lt-button-lbl { font: var(--lt-button); letter-spacing: -0.010em; }
+.lt-badge      { font: var(--lt-badge); letter-spacing: -0.010em; }
+.lt-table-h    { font: var(--lt-table-header); letter-spacing: -0.005em; color: var(--lt-text-tertiary); }
+
+/* ---------- Reduced motion ----------
+   Respect the OS "reduce motion" setting: drop entrance/exit animations and
+   shorten transitions system-wide for every consumer that loads this file.
+   Indeterminate spinners are exempt — they communicate ongoing state, so they
+   keep turning (just a touch calmer). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Loading spinners convey state — keep them animating, slightly slower. */
+  .lt-spinner,
+  [style*="lt-spin"] {
+    animation-duration: 1.4s !important;
+    animation-iteration-count: infinite !important;
+  }
+  /* Skeletons: drop the sheen sweep, hold a static neutral block. */
+  .lt-skeleton { animation: none !important; background: var(--lt-bg-active) !important; }
+}
+
+/* =========================================================================
+   DARK THEME
+   Opt-in: add  data-theme="dark"  to the <html> element. Default is light.
+   Only the *canonical* color tokens are overridden here — every alias
+   (--lt-text-ink, --lt-text-muted, --lt-border-warm, --lt-text-danger)
+   references a canonical token, so the whole system re-themes from this one
+   block. Sizes, spacing, radius, motion are theme-independent and not repeated.
+
+   The palette stays warm (paper-at-night): dark stone surfaces, a slightly
+   lifted indigo accent, and status hues lightened so text reads on the dark
+   subtle tints.  status -strong stops are LIGHTER than base here (text on a
+   dark tint), the mirror of the light theme.
+
+   To follow the OS setting instead of an explicit toggle, add:
+     @media (prefers-color-scheme: dark) {
+       :root:not([data-theme="light"]) {  (copy the block below)  }
+     }
+   ========================================================================= */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Brand / accent */
+  --lt-accent:          #6E86E0;
+  --lt-accent-hover:    #8398E8;
+  --lt-accent-pressed:  #5A78D6;
+  --lt-accent-subtle:   #242C49;   /* selected rows, active sidebar items */
+
+  /* Text */
+  --lt-text-primary:    #F4F1ED;
+  --lt-text-secondary:  #B7B0A8;
+  --lt-text-tertiary:   #8C857E;   /* AA on bg-primary (≈4.7:1) */
+  --lt-text-disabled:   #4F4A45;
+  --lt-text-on-accent:  #FFFFFF;
+
+  /* Surfaces */
+  --lt-bg-primary:      #1A1715;   /* page — warm near-black */
+  --lt-bg-sidebar:      #201D1A;
+  --lt-bg-active:       #2B2722;   /* selected rows, pressed */
+  --lt-bg-hover:        #353029;   /* hovered rows */
+  --lt-bg-stone:        #2B2722;   /* secondary button surface, count pills */
+  --lt-bg-stone-warm:   #353029;
+  --lt-bg-surface:      #232020;   /* cards, modals — lifted off the page */
+
+  /* Borders */
+  --lt-border-default:  #38332E;
+  --lt-border-input:    #4A443E;
+  --lt-border-subtle:   #2A2622;
+
+  /* Status — hues lifted for the dark base; -strong is the LIGHT text-on-tint stop */
+  --lt-success:         #5FB3A8;
+  --lt-success-strong:  #8FD0C7;
+  --lt-success-subtle:  #18302C;
+  --lt-danger:          #DB7F96;
+  --lt-danger-hover:    #E591A4;
+  --lt-danger-pressed:  #CC6680;
+  --lt-danger-strong:   #ECAAB9;
+  --lt-danger-subtle:   #331F26;
+  --lt-warn:            #DDA64A;
+  --lt-warn-strong:     #EDC279;
+  --lt-warn-subtle:     #2E2515;
+
+  /* Overlays — deeper scrim on a dark page */
+  --lt-overlay-modal:   rgba(0,0,0,0.55);
+  --lt-overlay-panel:   rgba(0,0,0,0.45);
+
+  /* Elevation — shadows need more weight to read on dark surfaces */
+  --lt-elev-1: 0 1px 2px 0 rgba(0,0,0,0.40);
+  --lt-elev-2: 0 4px 12px 0 rgba(0,0,0,0.45);
+  --lt-elev-3: 0 10px 20px 0 rgba(0,0,0,0.55);
+
+  /* Focus rings — keyed to the lifted accent */
+  --lt-focus-ring:           0 0 0 3px rgba(110,134,224,0.45);
+  --lt-focus-ring-danger:    0 0 0 3px rgba(219,127,150,0.45);
+  --lt-focus-ring-on-accent: 0 0 0 3px rgba(255,255,255,0.50);
+}
+
+/* ---------- Brand wordmark theming ----------
+   The Sidebar ships both a light and a dark wordmark and lets CSS pick.
+   Light theme (default): show the light wordmark, hide the dark one.
+   data-theme="dark": swap them. */
+.lt-wordmark-dark { display: none; }
+:root[data-theme="dark"] .lt-wordmark-light { display: none; }
+:root[data-theme="dark"] .lt-wordmark-dark  { display: inline; }

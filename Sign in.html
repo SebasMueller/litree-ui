@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Litree — Sign in</title>
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="stylesheet" href="colors_and_type.css">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: var(--lt-font-sans, system-ui, sans-serif);
+      color: var(--lt-text-primary);
+      background: var(--lt-bg-primary, #fbfaf7);
+      -webkit-font-smoothing: antialiased;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .wrap { width: 100%; max-width: 400px; }
+    .brand { display: flex; align-items: center; justify-content: center; gap: 9px; margin-bottom: 20px; }
+    .brand img { height: 34px; width: auto; display: block; }
+    .brand .pill {
+      font: 500 10px/1 var(--lt-font-sans); letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--lt-accent); background: var(--lt-accent-subtle);
+      padding: 4px 7px; border-radius: 9999px;
+    }
+    .sub { font: var(--lt-body-lg, 16px/1.5 var(--lt-font-sans)); color: var(--lt-text-secondary); letter-spacing: -0.01em; margin: 0 0 34px; text-align: center; }
+    form { display: flex; flex-direction: column; gap: 18px; }
+    label { display: flex; flex-direction: column; gap: 8px; }
+    .lbl-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+    .lbl { font: 500 13px/1 var(--lt-font-sans); letter-spacing: -0.006em; color: var(--lt-text-primary); }
+    .lbl-row a { font: 500 13px/1 var(--lt-font-sans); color: var(--lt-accent); text-decoration: none; letter-spacing: -0.005em; }
+    .lbl-row a:hover { text-decoration: underline; }
+    .field { position: relative; }
+    input {
+      height: 46px; padding: 0 15px; width: 100%;
+      border: 1px solid var(--lt-border-input, var(--lt-border-default));
+      border-radius: 11px; background: var(--lt-bg-surface, #fff);
+      font: var(--lt-body); color: var(--lt-text-primary); letter-spacing: -0.01em;
+      outline: none; transition: border-color 140ms ease, box-shadow 140ms ease;
+    }
+    input[type="password"], input[data-pw] { padding-right: 46px; }
+    input:focus { border-color: var(--lt-accent); box-shadow: var(--lt-focus-ring, 0 0 0 3px rgba(43,73,214,0.15)); }
+    .eye {
+      position: absolute; top: 50%; right: 8px; transform: translateY(-50%);
+      width: 32px; height: 32px; border: 0; background: transparent; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--lt-text-tertiary); border-radius: 7px;
+    }
+    .eye:hover { color: var(--lt-text-secondary); background: var(--lt-bg-active); }
+    button.submit {
+      height: 48px; margin-top: 6px; width: 100%;
+      background: var(--lt-accent); color: var(--lt-text-on-accent, #fff);
+      border: 0; border-radius: 12px; cursor: pointer;
+      font: 500 15px/1 var(--lt-font-sans); letter-spacing: -0.01em;
+      transition: background 140ms ease;
+    }
+    button.submit:hover { background: var(--lt-accent-hover, #2440b8); }
+    .foot { margin-top: 28px; text-align: center; font: var(--lt-body-sm); color: var(--lt-text-tertiary); letter-spacing: -0.005em; }
+    .foot a { font-weight: 500; color: var(--lt-accent); text-decoration: none; }
+    .foot a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img src="assets/logo-litree.png" alt="Litree">
+      <span class="pill">Beta</span>
+    </div>
+    <p class="sub">Sign in to continue to Litree.</p>
+
+    <form id="signin">
+      <label>
+        <span class="lbl">Email</span>
+        <div class="field">
+          <input type="email" name="email" placeholder="name@university.edu" autocomplete="email" required>
+        </div>
+      </label>
+      <label>
+        <span class="lbl-row"><span class="lbl">Password</span><a href="#">Forgot password?</a></span>
+        <div class="field">
+          <input type="password" id="pw" name="password" placeholder="Enter your password" autocomplete="current-password" data-pw required>
+          <button type="button" class="eye" id="toggle" aria-label="Show password">
+            <svg id="eye-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </label>
+      <button type="submit" class="submit">Sign in</button>
+    </form>
+
+    <div class="foot">New to Litree? <a href="#">Create an account</a></div>
+  </div>
+
+  <script>
+    var pw = document.getElementById('pw');
+    var toggle = document.getElementById('toggle');
+    var eyeIcon = document.getElementById('eye-icon');
+    var shown = false;
+    toggle.addEventListener('click', function () {
+      shown = !shown;
+      pw.type = shown ? 'text' : 'password';
+      toggle.setAttribute('aria-label', shown ? 'Hide password' : 'Show password');
+      eyeIcon.innerHTML = shown
+        ? '<path d="M9.88 9.88a3 3 0 0 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/>'
+        : '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>';
+    });
+    document.getElementById('signin').addEventListener('submit', function (e) {
+      e.preventDefault();
+      window.location.href = 'Project Workspace.html';
+    });
+  </script>
+
+  <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="16" fill="#2A6FDB"/><rect x="30" y="40" width="40" height="26" rx="5" fill="#fff"/><path d="M38 40v-6a12 12 0 0 1 24 0v6" fill="none" stroke="#fff" stroke-width="4"/></svg></template>
+</body>
+</html>

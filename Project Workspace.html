@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Litree — Project workspace</title>
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="stylesheet" href="colors_and_type.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+  <style>
+    :root { --lt-font-serif: "Newsreader", Georgia, "Times New Roman", serif; }
+    html, body, #root { height: 100%; margin: 0; }
+    body { overflow: hidden; background: var(--lt-bg-primary); }
+    .lt-spinner { width: 12px; height: 12px; border: 1.5px solid var(--lt-text-tertiary);
+                  border-top-color: transparent; border-radius: 50%;
+                  animation: ltspin 1s linear infinite; display: inline-block; }
+    @keyframes ltspin { to { transform: rotate(360deg); } }
+    button, input, select, textarea { font-family: inherit; }
+    *:focus-visible { outline: 2px solid var(--lt-accent-hover); outline-offset: 1px; }
+
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--lt-bg-hover); border-radius: 999px; border: 2px solid transparent; background-clip: content-box; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--lt-text-tertiary); background-clip: content-box; border: 2px solid transparent; }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="./src/Primitives.jsx"></script>
+<script type="text/babel" src="./src/Sidebar.jsx"></script>
+<script type="text/babel" src="./src/Dropdown.jsx"></script>
+<script type="text/babel" src="./src/WorkspacePage.jsx"></script>
+
+<script type="text/babel" data-presets="env,react">
+  const { useState, useEffect } = React;
+
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "activeTab": "papers",
+    "modal": "none",
+    "loading": false,
+    "reviewsEmpty": false
+  }/*EDITMODE-END*/;
+
+  const SEED_PROJECTS = [
+    { id: "p1", name: "Inequality & growth",         reviewCount: 2, question: "How does rising economic inequality affect intergenerational mobility and social cohesion in developing nations?", databases: "EBSCO", query: '(inequality OR disparity) AND (mobility OR "social cohesion")', searched: "Apr 26, 2026" },
+    { id: "p2", name: "Attention in transformers",   reviewCount: 0, question: "How do attention mechanisms shape generalization in large language models?", databases: "EBSCO", query: '(attention OR "self-attention") AND (generalization OR "out-of-distribution")', searched: "Apr 18, 2026" },
+    { id: "p3", name: "Climate adaptation policy",   reviewCount: 1, question: "Which climate adaptation policies are most effective for coastal cities in the Global South?", databases: "EBSCO", query: '("climate adaptation" OR resilience) AND ("coastal cities" OR "sea level")', searched: "Apr 09, 2026" },
+  ];
+  const USER = { name: "Jane Doe", email: "jane.doe@adb.org", initials: "JD" };
+
+  function App() {
+    const [projects, setProjects] = useState(SEED_PROJECTS);
+    const [activeProject, setActiveProject] = useState("p1");
+    const [knobs, setKnobs] = useState(TWEAK_DEFAULTS);
+    const [tweaksOpen, setTweaksOpen] = useState(false);
+    const [openModal, setOpenModal] = useState(knobs.modal === "none" ? null : knobs.modal);
+
+    useEffect(() => {
+      const onMsg = (e) => {
+        if (!e.data) return;
+        if (e.data.type === "__activate_edit_mode")   setTweaksOpen(true);
+        if (e.data.type === "__deactivate_edit_mode") setTweaksOpen(false);
+      };
+      window.addEventListener("message", onMsg);
+      window.parent.postMessage({ type: "__edit_mode_available" }, "*");
+      return () => window.removeEventListener("message", onMsg);
+    }, []);
+
+    /* Reflect modal tweak into actual modal state */
+    useEffect(() => {
+      setOpenModal(knobs.modal === "none" ? null : knobs.modal);
+    }, [knobs.modal]);
+
+    /* When user closes a modal, also reset the tweak */
+    const handleSetOpenModal = (kind) => {
+      setOpenModal(kind);
+      if (!kind && knobs.modal !== "none") setKnob("modal", "none");
+    };
+
+    const setKnob = (key, value) => {
+      setKnobs(prev => ({ ...prev, [key]: value }));
+      window.parent.postMessage({ type: "__edit_mode_set_keys", edits: { [key]: value } }, "*");
+    };
+
+    const project = projects.find(p => p.id === activeProject) || projects[0];
+
+    return (
+      <div style={{ display: "flex", height: "100%" }}>
+        <Sidebar
+          projects={projects}
+          activeProjectId={activeProject}
+          onSelectProject={setActiveProject}
+          onNewProject={() => { window.location.href = "Research Question.html"; }}
+          onDeleteProject={(id) => {
+            setProjects(prev => {
+              const next = prev.filter(p => p.id !== id);
+              if (id === activeProject && next.length) setActiveProject(next[0].id);
+              return next;
+            });
+          }}
+          user={USER}
+          badge="Beta"
+          feedback={{ label: "Send feedback" }}
+          docsHref="Journals documentation.html"
+        />
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+          <WorkspacePage
+            project={project}
+            knobs={knobs}
+            openModal={openModal}
+            setOpenModal={handleSetOpenModal}
+          />
+        </div>
+
+        {tweaksOpen && <TweaksPanel knobs={knobs} setKnob={setKnob} onClose={() => setTweaksOpen(false)} />}
+      </div>
+    );
+  }
+
+  function TweaksPanel({ knobs, setKnob, onClose }) {
+    return (
+      <div style={{
+        position: "fixed", bottom: 20, right: 20, zIndex: 999,
+        width: 280,
+        background: "var(--lt-bg-surface)",
+        border: "1px solid var(--lt-border-default)",
+        borderRadius: 12,
+        boxShadow: "var(--lt-elev-3)",
+        padding: 16,
+      }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
+          <div style={{ font: "600 13px/1 var(--lt-font-sans)", letterSpacing: "-0.01em", color: "var(--lt-text-primary)" }}>
+            Tweaks
+          </div>
+          <button onClick={onClose} style={{ background: "transparent", border: 0, cursor: "pointer", padding: 2, color: "var(--lt-text-tertiary)", display: "inline-flex" }}>
+            <Icon name="x" size={14} color="currentColor" />
+          </button>
+        </div>
+
+        <TweakRow label="Active tab">
+          <Segmented
+            options={[{ v: "papers", l: "Papers" }, { v: "reviews", l: "Reviews" }]}
+            value={knobs.activeTab}
+            onChange={(v) => setKnob("activeTab", v)}
+          />
+        </TweakRow>
+
+        <TweakRow label="Loading state">
+          <Segmented
+            options={[{ v: false, l: "Loaded" }, { v: true, l: "Skeleton" }]}
+            value={knobs.loading === true}
+            onChange={(v) => setKnob("loading", v)}
+          />
+        </TweakRow>
+
+        <TweakRow label="Literature reviews">
+          <Segmented
+            options={[{ v: false, l: "Populated" }, { v: true, l: "Empty" }]}
+            value={knobs.reviewsEmpty === true}
+            onChange={(v) => setKnob("reviewsEmpty", v)}
+          />
+        </TweakRow>
+
+        <TweakRow label="Show modal">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+            {[
+              { v: "none",           l: "None" },
+              { v: "upload",         l: "Upload" },
+              { v: "request-texts",  l: "Request texts" },
+              { v: "delete",         l: "Delete confirm" },
+            ].map(o => {
+              const active = o.v === knobs.modal;
+              return (
+                <button key={o.v} onClick={() => setKnob("modal", o.v)}
+                  style={{
+                    background: active ? "var(--lt-accent-subtle)" : "var(--lt-bg-stone)",
+                    color: active ? "var(--lt-accent)" : "var(--lt-text-secondary)",
+                    border: active ? "1px solid var(--lt-accent)" : "1px solid transparent",
+                    borderRadius: 6, padding: "6px 8px", cursor: "pointer",
+                    font: "500 12px/1.1 var(--lt-font-sans)", letterSpacing: "-0.005em",
+                    textAlign: "center",
+                  }}>{o.l}</button>
+              );
+            })}
+          </div>
+        </TweakRow>
+      </div>
+    );
+  }
+
+  function TweakRow({ label, children }) {
+    return (
+      <div style={{ marginBottom: 12 }}>
+        <div style={{ font: "500 11px/1.5 var(--lt-font-sans)", color: "var(--lt-text-tertiary)", letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 6 }}>
+          {label}
+        </div>
+        {children}
+      </div>
+    );
+  }
+
+  function Segmented({ options, value, onChange }) {
+    return (
+      <div style={{
+        display: "inline-flex",
+        background: "var(--lt-bg-stone)",
+        borderRadius: 8,
+        padding: 2,
+        width: "100%",
+      }}>
+        {options.map((o, i) => {
+          const active = o.v === value;
+          return (
+            <button key={i}
+              onClick={() => onChange(o.v)}
+              style={{
+                flex: 1,
+                background: active ? "var(--lt-bg-surface)" : "transparent",
+                color: active ? "var(--lt-text-primary)" : "var(--lt-text-tertiary)",
+                border: 0, cursor: "pointer",
+                borderRadius: 6, padding: "5px 8px",
+                boxShadow: active ? "var(--lt-elev-1)" : "none",
+                font: "500 12px/1 var(--lt-font-sans)", letterSpacing: "-0.005em",
+                transition: "background 120ms ease, color 120ms ease",
+              }}>
+              {o.l}
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
