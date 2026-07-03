@@ -31,7 +31,7 @@ const EXAMPLE_QUESTIONS = [
 
 function ResearchQuestionPage({ knobs }) {
   /* Knob step values: "ask" | "refine" (legacy "review"/"boolean" map to refine) */
-  const initialStep = (knobs.step === "ask") ? "ask" : "refine";
+  const initialStep = (knobs.step === "refine") ? "refine" : "ask";
 
   const [step, setStep] = useStateRQ(initialStep);
   const [question, setQuestion] = useStateRQ("");
@@ -42,7 +42,7 @@ function ResearchQuestionPage({ knobs }) {
 
   useEffectRQ(() => {
     if (!knobs.step) return;
-    setStep(knobs.step === "ask" ? "ask" : "refine");
+    setStep(knobs.step === "refine" ? "refine" : "ask");
   }, [knobs.step]);
 
   return (
